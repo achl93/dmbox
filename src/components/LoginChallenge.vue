@@ -35,7 +35,7 @@
           axios.post('http://localhost:5000/login-challenge', {
             code: this.code
           }).then((res) => {
-            console.log(res);
+            console.log(res)
             if (res.data.error === '') {
               this.$router.push({ path: '/chats' })
             } else {
