@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     challengeRequired: false,
     challengeId: '',
-    loggedIn: false
+    loggedIn: false,
+    chatMetas: []
   },
   mutations: {
     toggleChallenge(state, id) {
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     },
     toggleLoggedIn(state) {
       state.loggedIn = !state.loggedIn
+    },
+    storeChatMeta(state, newChatMeta) {
+      state.chatMetas = [...state.chatMetas, newChatMeta]
     }
   },
   actions: {

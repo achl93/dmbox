@@ -5,6 +5,7 @@ const app = express()
 const bodyParser = require('body-parser')
 const client = require('instagram-private-api').V1
 const fs = require('fs')
+const helpers = require('./helpers')
 
 var session
 var challenges = {}
@@ -22,7 +23,7 @@ app.post('/login', (req, res) => {
     let username = req.body.username
     let password = req.body.password
     let proxyUrl = req.body.proxyUrl
-    let device = new client.Device(username);
+    let device = new client.Device(username)
 
     fs.stat(__dirname + `/cookies/${username}.json`, (err) => {
       if (err == null) {
@@ -69,6 +70,17 @@ app.post('/login-challenge', (req, res) => {
     })
     .catch((ex) => {
       res.status(401).json({ 'error': ex })
+    })
+})
+
+app.get('/chats', (req, res) => {
+  helpers.getChats(session)
+    .then((chats) => {
+      res.status(200).json({ 'chats': chats })
+    })
+    .catch((err) => {
+      console.log(err)
+      res.status(400).json({ 'timeout': 60000 })
     })
 })
 
