@@ -84,5 +84,17 @@ app.get('/chats', (req, res) => {
     })
 })
 
+app.get('/chat/:chatId', (req, res) => {
+  let chatId = req.params.chatId
+  helpers.getChat(session, chatId)
+    .then((chat) => {
+      res.status(200).json({ 'chat': chat })
+    })
+    .catch((err) => {
+      console.log(err)
+      res.status(500).json({ 'error': err })
+    })
+})
+
 app.listen(port)
 console.log('Server listening on port '+ port)

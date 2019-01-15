@@ -4,13 +4,13 @@
         <v-layout row wrap>
           <v-flex xs4>
             <v-card v-for="(chat, index) in chats" v-bind:key="index">
-              <ChatTab v-bind:chatId="chat.chatId" />
+              <ChatTab v-bind:chatId="chat.id" />
               <br />
             </v-card>
           </v-flex>
           <v-flex xs8>
-            <v-card>
-              <div>Column 2</div>
+            <v-card :key="this.selectedChat">
+              <Chat />
             </v-card>
           </v-flex>
         </v-layout>
@@ -22,12 +22,22 @@
   import store from '../store'
   import axios from 'axios'
   import ChatTab from '../components/ChatTab.vue'
-  //import Chat from '../components/Chat.vue'
+  import Chat from '../components/Chat.vue'
 
   export default {
+    watch: {
+      selectedChat(newVal, oldVal) {
+        console.log(newVal, oldVal)
+      }
+    },
     data: () => {
       return {
-        chats: []
+        chats: [],
+      }
+    },
+    computed: {
+      selectedChat() {
+        return store.state.selectedChat
       }
     },
     created () {
@@ -35,20 +45,14 @@
     },
     components: {
       ChatTab,
-      //Chat
+      Chat
     },
     methods: {
       getChats() {
         axios.get('http://localhost:5000/chats').then((res) => {
-          console.log(res)
           res.data.chats.forEach(element => {
-            let tmp = {
-              accounts: element.accounts,
-              chatId: element.id
-            }
-            //this.storeChatMeta(tmp)
-            store.commit('storeChatMeta', tmp)
-            this.chats.push(tmp)
+            store.commit('storeChatMeta', element)
+            this.chats.push(element)
           })
         })
       }

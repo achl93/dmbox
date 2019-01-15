@@ -6,7 +6,6 @@
             <v-card class="elevation-12">
               <Login v-if="!challengeRequired" />
               <LoginChallenge v-else />
-              <button v-on:click="dev">Dev</button>
             </v-card>
           </v-flex>
         </v-layout>
@@ -30,9 +29,7 @@
       LoginChallenge
     },
     methods: {
-      dev() {
-        this.$router.push({ path: '/chats' })
-      }
+
     }
   }
 </script>

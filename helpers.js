@@ -21,3 +21,9 @@ exports.getChats = (session) => {
       .catch(reject)
   })
 }
+
+exports.getChat = (session, chatId) => {
+  return new Promise((resolve, reject) => {
+    client.Thread.getById(session, chatId).then(resolve).catch(reject)
+  })
+}
